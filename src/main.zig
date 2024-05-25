@@ -5,20 +5,10 @@ pub fn main() !void {
     var args = try std.process.argsWithAllocator(allocator);
     defer args.deinit();
 
-    const c = std.http.Client{ .allocator = allocator };
-    const fetch_options = std.http.Client.FetchOptions{
-        .location = std.http.Client.FetchOptions.Location{
-            .url = "https://httpbin.org/anything",
-        },
-    };
-    var res = try c.fetch(fetch_options);
-
     // skip executable in args
     _ = args.skip();
-
-    if (args.next()) |template| {
-        std.debug.print("{s}\n", .{template});
-        generate(template);
+    if (args.next()) |temp| {
+        generate(temp);
     }
 }
 
